@@ -39,7 +39,7 @@ Daily Blogs
 	* tag_id (FK)
 	* blog_id (FK)
    
-### API's for the application
+### APIs for the application
 1. /users
 	* /
 		* GET - TO get all the users
@@ -48,41 +48,41 @@ Daily Blogs
 	* /sign-up
 		* POST - To create a new USER
 	* /login
-		* POST - To allow user to login and generate access token
+		* POST - To allow a user to login and generate an access token
 	* /logout
-		* POST - To allow user to logout and delete access token
+		* POST - To allow a user to logout and delete the access token
 	* /reset-password
-		* POST - To allow user to initiate a password reset
+		* POST - To allow a user to initiate a password reset
 	* /:id
-		* GET - To get user with specific id
-		* PATCH - To update user with specific id
-		* Delete - To delete user with specific id
+		* GET - To get a user with a specific ID
+		* PATCH - To update a user with a specific ID
+		* Delete - To delete a user with a specific ID
 2. /blogs
 	* /
 		* GET - TO get all the blogs
 		* POST - To create a new blog
 	* /:id
-		* GET - To get blog with specific id
-		* PATCH - To update blog with specific id
-		* Delete - To delete blog with specific id
+		* GET - To get a blog with a specific ID
+		* PATCH - To update a blog with a specific ID
+		* Delete - To delete a blog with a specific ID
 	* /search
 		* GET - To search for blogs with keywords
 	* /filter
-		* GET - To filter blog with criteria (eg: date,tags)
+		* GET - To filter blogs with criteria (e.g.: date, tags)
 3. /comments
 	* /
 		* GET - TO get all the comments
 		* POST - To create a new comment
 	* /:id
-		* GET - To get comment with specific id
-		* PATCH - To update comment with specific id
-		* Delete - To delete comment with specific id
+		* GET - To get comments with specific ID
+		* PATCH - To update comment with specific ID
+		* Delete - To delete a comment with specific ID
 	* /:blog_id
 		* GET - To get comments for the specific blog
 4. /likes
 	* /:blog_id
-		* POST - To post like with specific blog id
-		* Delete - To delete like with specific blog id
+		* POST - To post like with a specific blog id
+		* Delete - To delete like with a specific blog id
 
 
 
