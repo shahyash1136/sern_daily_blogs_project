@@ -65,8 +65,6 @@ Daily Blogs
 		* GET - To get a blog with a specific ID
 		* PATCH - To update a blog with a specific ID
 		* Delete - To delete a blog with a specific ID
-	* /search
-		* GET - To search for blogs with keywords
 	* /filter
 		* GET - To filter blogs with criteria (e.g.: date, tags)
 3. /comments
@@ -83,6 +81,8 @@ Daily Blogs
 	* /:blog_id
 		* POST - To post like with a specific blog id
 		* Delete - To delete like with a specific blog id
+5. /search
+		* GET - To search for blogs, tags and users with keywords
 
 
 

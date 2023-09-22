@@ -1,0 +1,78 @@
+DROP DATABASE IF EXISTS `daily_blogs`;
+CREATE DATABASE `daily_blogs`;
+USE `daily_blogs`;
+
+CREATE TABLE users (
+    user_id INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255),
+    email_id VARCHAR(255)  NOT NULL,
+    password VARCHAR(255)  NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id)
+    
+);
+
+CREATE TABLE blogs (
+    blog_id INT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    content LONGTEXT NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (blog_id),
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE comments (
+    comment_id INT NOT NULL AUTO_INCREMENT,
+    comment TEXT NOT NULL,
+    user_id INT NOT NULL,
+    blog_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (comment_id),
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (blog_id)
+        REFERENCES blogs (blog_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE likes (
+    like_id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    blog_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (like_id),
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (blog_id)
+        REFERENCES blogs (blog_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE tags (
+    tag_id INT NOT NULL AUTO_INCREMENT,
+    tag_name VARCHAR(50) NOT NULL,
+    PRIMARY KEY (tag_id)
+);
+
+CREATE TABLE blogTag (
+    blog_tag_id INT NOT NULL AUTO_INCREMENT,
+    tag_id INT NOT NULL,
+    blog_id INT NOT NULL,
+    PRIMARY KEY (blog_tag_id),
+    FOREIGN KEY (tag_id)
+        REFERENCES tags (tag_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (blog_id)
+        REFERENCES blogs (blog_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
