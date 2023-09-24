@@ -42,10 +42,15 @@ Daily Blogs
 ### APIs for the application
 1. /users
 	* /
-		* GET - TO get all the users
+		* GET - To get all the users
 	* /latest-logs
-		* GET - To get user specific recent 5 blogs
-	* /sign-up
+		* GET - To get user-specific recent 5 blogs
+	* /:id
+		* GET - To get a user with a specific ID
+		* PATCH - To update a user with a specific ID
+		* Delete - To delete a user with a specific ID
+2. /auth
+   	* /sign-up
 		* POST - To create a new USER
 	* /login
 		* POST - To allow a user to login and generate an access token
@@ -53,11 +58,8 @@ Daily Blogs
 		* POST - To allow a user to logout and delete the access token
 	* /reset-password
 		* POST - To allow a user to initiate a password reset
-	* /:id
-		* GET - To get a user with a specific ID
-		* PATCH - To update a user with a specific ID
-		* Delete - To delete a user with a specific ID
-2. /blogs
+
+3. /blogs
 	* /
 		* GET - TO get all the blogs
 		* POST - To create a new blog
@@ -67,7 +69,7 @@ Daily Blogs
 		* Delete - To delete a blog with a specific ID
 	* /filter
 		* GET - To filter blogs with criteria (e.g.: date, tags)
-3. /comments
+4. /comments
 	* /
 		* GET - TO get all the comments
 		* POST - To create a new comment
@@ -77,12 +79,12 @@ Daily Blogs
 		* Delete - To delete a comment with specific ID
 	* /:blog_id
 		* GET - To get comments for the specific blog
-4. /likes
+5. /likes
 	* /:blog_id
-		* POST - To post like with a specific blog id
-		* Delete - To delete like with a specific blog id
-5. /search
-		* GET - To search for blogs, tags and users with keywords
+		* POST - To post like with a specific blog ID
+		* Delete - To delete like with a specific blog ID
+6. /search
+		* GET - To search for blogs, tags, and users with keywords
 
 
 
