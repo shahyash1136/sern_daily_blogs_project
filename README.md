@@ -68,7 +68,7 @@ Daily Blogs
 		* PATCH - To update a blog with a specific ID
 		* Delete - To delete a blog with a specific ID
 	* /filter
-		* GET - To filter blogs with criteria (e.g.: date, tags)
+		* POST - To filter blogs with criteria (e.g.: date, tags)
 4. /comments
 	* /
 		* GET - TO get all the comments
