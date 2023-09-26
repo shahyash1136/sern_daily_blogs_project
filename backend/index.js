@@ -2,9 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import dotEnv from "dotenv";
 import cors from "cors";
-import sequelize from "./util/database.js";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import blogRoutes from "./routes/blogRoutes.js";
 import tagsRoutes from "./routes/tagsRoutes.js";
 
 dotEnv.config();
@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/blog", blogRoutes);
 app.use("/api/v1/tags", tagsRoutes);
 
 app.listen(PORT, () => {
