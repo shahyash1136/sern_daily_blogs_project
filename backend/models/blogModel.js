@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
-import sequelize from "../util/database";
+import sequelize from "../util/database.js";
+import { User } from "./userModel.js";
 
 export const blog = sequelize.define(
   "blogs",
@@ -26,6 +27,10 @@ export const blog = sequelize.define(
         model: User,
         // This is the column name of the referenced model
         key: "user_id",
+        // This is to specify ON DELETE CASCADE
+        onDelete: "CASCADE",
+        // This is to specify ON UPDATE CASCADE
+        onUpdate: "CASCADE",
       },
     },
     created_at: {
@@ -45,3 +50,5 @@ export const blog = sequelize.define(
     timestamps: false,
   }
 );
+
+blog.belongsTo(User, { foreignKey: "user_id" });
