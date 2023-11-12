@@ -84,7 +84,7 @@ Daily Blogs
 		* POST - To post like with a specific blog ID
 		* Delete - To delete like with a specific blog ID
 6. /search
-		* GET - To search for blogs, tags, and users with keywords
+	* GET - To search for blogs, tags, and users with keywords
 
 
 
