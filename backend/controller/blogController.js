@@ -70,6 +70,24 @@ export const getBlog = async (req, res) => {
 };
 export const updateBlog = async (req, res) => {
   try {
+    const blog_id = req.params.id;
+    const payload = req.body;
+
+    // Check if payload is undefined or empty
+    if (!payload || Object.keys(payload).length === 0) {
+      return res.status(400).json({ error: "Invalid or empty payload" });
+    }
+
+    // Attempt to update the blog based on the payload
+    const [affectedRowsCount] = await blog.update(payload, {
+      where: { blog_id },
+    });
+
+    if (affectedRowsCount === 0) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
+    res.status(200).send({ message: "Blog Updated Successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).send({

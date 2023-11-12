@@ -45,7 +45,21 @@ export const updateUser = async (req, res) => {
   try {
     const user_id = req.params.id;
     const payload = req.body;
-    await User.update(payload, { where: { user_id } });
+
+    // Check if payload is undefined or empty
+    if (!payload || Object.keys(payload).length === 0) {
+      return res.status(400).json({ error: "Invalid or empty payload" });
+    }
+
+    // Attempt to update the User based on the payload
+    const [affectedRowsCount] = await User.update(payload, {
+      where: { user_id },
+    });
+
+    if (affectedRowsCount === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
     res.status(200).send({ message: "User Updated Successfully" });
   } catch (error) {
     console.log(error);
