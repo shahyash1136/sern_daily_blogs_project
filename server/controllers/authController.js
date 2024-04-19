@@ -20,7 +20,15 @@ const signup = async (req, res) => {
       process.env.JWT_SECRET_KEY
     );
 
-    res.status(201).json(newUser.rows[0]);
+    const data = {
+      id: newUser.rows[0].user_id,
+      first_name: newUser.rows[0].first_name,
+      last_name: newUser.rows[0].last_name,
+      email: newUser.rows[0].email_id,
+      token: token,
+    };
+
+    res.status(201).json({ data, message: "Successful" });
   } catch (error) {
     console.log("Error during signup", error);
     res.status(500).json({
@@ -57,7 +65,15 @@ const login = async (req, res) => {
       process.env.JWT_SECRET_KEY
     );
 
-    res.status(200).json({ token });
+    const data = {
+      id: user.rows[0].user_id,
+      first_name: user.rows[0].first_name,
+      last_name: user.rows[0].last_name,
+      email: user.rows[0].email_id,
+      token: token,
+    };
+
+    res.status(200).json({ data, message: "Successful" });
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({ error: "Error during login" });
