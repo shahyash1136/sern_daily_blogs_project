@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import tagsRoutes from "./routes/tagsRoutes.js";
+import blogRoutes from "./routes/blogRoutes.js";
 
 dotenv.config({ path: "./config.env" });
 
@@ -24,5 +25,8 @@ app.use("/api/v1/user", userRoutes);
 
 //Tags Api
 app.use("/api/v1/tags", tagsRoutes);
+
+//Blogs Api
+app.use("/api/v1/blog", blogRoutes);
 
 export { app };
