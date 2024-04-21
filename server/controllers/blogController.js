@@ -58,7 +58,7 @@ export const getAllBlogs = async (req, res) => {
 };
 export const createBlog = async (req, res) => {
   try {
-    const { title, content, user_id } = req.body;
+    const { title, content, user_id, tags } = req.body;
 
     //Validate the request body
     if (!title || !content || !user_id) {
@@ -80,6 +80,30 @@ export const createBlog = async (req, res) => {
       "INSERT INTO blogs (title,content,user_id) VALUES ($1,$2,$3) RETURNING *",
       [title, content, user_id]
     );
+
+    const blogId = newBlog.rows[0].blog_id;
+
+    // Insert tags into blog_tags table
+    if (tags && Array.isArray(tags) && tags.length > 0) {
+      await Promise.all(
+        tags.map(async (tag) => {
+          const existingTag = await db.query(
+            "SELECT * FROM tags WHERE tag_name = $1",
+            [tag]
+          );
+          let tag_id;
+          if (existingTag.rows.length === 0) {
+            const newTag = await db.query(
+              "INSERT INTO tags (tag_name) VALUES ($1) RETURNING tag_id",
+              [tag]
+            );
+            tag_id = newTag.rows[0].tag_id;
+          } else {
+            tag_id = existingTag.rows[0].tag_id;
+          }
+        })
+      );
+    }
 
     const data = {
       id: newBlog.rows[0].blog_id,
