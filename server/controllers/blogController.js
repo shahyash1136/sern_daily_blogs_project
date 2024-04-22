@@ -101,6 +101,10 @@ export const createBlog = async (req, res) => {
           } else {
             tag_id = existingTag.rows[0].tag_id;
           }
+          await db.query(
+            "INSERT INTO blog_tags (blog_id,tag_id) VALUES ($1,$2)",
+            [blogId, tag_id]
+          );
         })
       );
     }
@@ -109,6 +113,7 @@ export const createBlog = async (req, res) => {
       id: newBlog.rows[0].blog_id,
       title: newBlog.rows[0].title,
       content: newBlog.rows[0].content,
+      tags: tags || [],
       user_id: newBlog.rows[0].user_id,
       created_at: newBlog.rows[0].created_date,
       updated_at: newBlog.rows[0].updated_date,
@@ -194,22 +199,29 @@ export const updateBlog = async (req, res) => {
     const fieldsToUpdate = [];
     const queryParameters = [];
     let parameterIndex = 1;
+    let tags = [];
 
     for (const key in payload) {
       if (
         payload.hasOwnProperty(key) &&
         key !== "blog_id" &&
         key !== "user_id" &&
-        key !== "updated_date"
+        key !== "updated_date" &&
+        key !== "tags"
       ) {
         fieldsToUpdate.push(`${key} = $${parameterIndex}`);
         queryParameters.push(payload[key]);
         parameterIndex++;
       }
+      if (payload.hasOwnProperty(key) && key === "tags") {
+        tags = payload[key];
+      }
     }
 
     // Include updated_at with the current timestamp in the fields to update
     fieldsToUpdate.push("updated_date = CURRENT_TIMESTAMP");
+
+    //console.log(fieldsToUpdate, queryParameters, tags);
 
     // Construct the complete SQL UPDATE query
     const setClause = fieldsToUpdate.join(", ");
@@ -219,12 +231,42 @@ export const updateBlog = async (req, res) => {
       WHERE blog_id = ${blogId}
     `;
 
-    // Execute the query
+    // Execute the query to update the blog
     const result = await db.query(query, queryParameters);
 
     // Check if any rows were affected by the update
     if (result.rowCount === 0) {
       return res.status(404).json({ message: "Blog not found" });
+    }
+
+    // Update blog tags if tags are provided
+    if (tags && Array.isArray(tags) && tags.length > 0) {
+      // Delete existing tags for the blog
+      await db.query("DELETE FROM blog_tags WHERE blog_id = $1", [blogId]);
+
+      // Insert new tags for the blog
+      await Promise.all(
+        tags.map(async (tag) => {
+          const existingTag = await db.query(
+            "SELECT * FROM tags WHERE tag_name = $1",
+            [tag]
+          );
+          let tag_id;
+          if (existingTag.rows.length === 0) {
+            const newTag = await db.query(
+              "INSERT INTO tags (tag_name) VALUES ($1) RETURNING tag_id",
+              [tag]
+            );
+            tag_id = newTag.rows[0].tag_id;
+          } else {
+            tag_id = existingTag.rows[0].tag_id;
+          }
+          await db.query(
+            "INSERT INTO blog_tags (blog_id, tag_id) VALUES ($1, $2)",
+            [blogId, tag_id]
+          );
+        })
+      );
     }
 
     // Send a success response
