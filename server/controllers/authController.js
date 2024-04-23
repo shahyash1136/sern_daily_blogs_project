@@ -9,6 +9,15 @@ const signup = async (req, res) => {
     const { first_name, last_name, email_id, password } = req.body;
     const hashPassword = await bcrypt.hash(password, 10);
 
+    const existingUser = await db.query(
+      "SELECT * FROM users WHERE email_id = $1",
+      [email_id]
+    );
+
+    if (existingUser.rows.length !== 0) {
+      return res.status(409).json({ message: "Email ID already exists" });
+    }
+
     const newUser = await db.query(
       "INSERT INTO users (first_name,last_name,email_id,password) VALUES ($1,$2,$3,$4) RETURNING *",
       [first_name, last_name, email_id, hashPassword]

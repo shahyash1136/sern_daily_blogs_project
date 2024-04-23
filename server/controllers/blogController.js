@@ -282,6 +282,7 @@ export const deleteBlog = async (req, res) => {
   try {
     const blogId = req.params.id;
 
+    await db.query("DELETE FROM blog_tags WHERE blog_id = $1", [blogId]);
     await db.query("DELETE FROM blogs WHERE blog_id = $1", [blogId]);
 
     res.status(200).json({ message: "Blog deleted successfully" });
