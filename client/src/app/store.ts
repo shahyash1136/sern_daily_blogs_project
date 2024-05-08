@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux'
 import authSlice from '@/app/features/Auth/authSlice';
+import blogSlice from './features/Blog/blogSlice';
 
 export const store = configureStore({
     reducer: {
-        auth: authSlice
+        auth: authSlice,
+        blogs: blogSlice
     }
 });
 
