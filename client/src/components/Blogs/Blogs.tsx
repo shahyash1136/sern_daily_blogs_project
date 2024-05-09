@@ -1,17 +1,8 @@
 import { useEffect } from 'react';
 import { Blog, fetchBlogs } from '@/app/features/Blog/blogSlice';
-import { useAppDispatch, useAppSelector } from '@/app/store'
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import moment from 'moment';
-import ReactHtmlParser from 'react-html-parser';
-import { Badge } from '@/components/ui/badge';
-import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '@/app/store';
+import Card from './Card'
+
 
 const Blogs = () => {
     const dispatch = useAppDispatch();
@@ -31,28 +22,15 @@ const Blogs = () => {
                 isLoading ? "loaing..." :
                     blogs.map((blog: Blog) => {
                         return (
-                            <Link key={blog.id} to={`/blog/${blog.id}`}>
-                                <Card >
-                                    <CardHeader>
-                                        <CardTitle>{blog.title}</CardTitle>
-                                        <CardDescription>{moment(blog.updated_date).fromNow()}</CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className='three-line-clamp'>
-                                            {ReactHtmlParser(blog.content)}
-                                        </div>
-                                        <div className='flex justify-start items-center mt-4'>
-                                            {
-                                                blog.tags.map((tag: string) => {
-                                                    return (
-                                                        <Badge className='mr-2 p-2' key={`${blog.id}-${tag}`}>{tag}</Badge>
-                                                    )
-                                                })
-                                            }
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </Link>
+                            <Card
+                                key={blog.id}
+                                id={blog.id}
+                                title={blog.title}
+                                tags={blog.tags}
+                                updated_date={blog.updated_date}
+                                content={blog.content}
+                                full_name={`${blog.user_firstName} ${blog.user_lastName}`}
+                            />
                         )
                     })
             }

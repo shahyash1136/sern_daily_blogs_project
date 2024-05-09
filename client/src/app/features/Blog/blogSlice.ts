@@ -35,10 +35,12 @@ export const fetchBlogs = createAsyncThunk('blog/allblogs', async () => {
     }
 })
 
-export const fetchBlog = createAsyncThunk('blog/singleBlog', async (id: string) => {
+export const fetchBlog = createAsyncThunk('blog/singleBlog', async (id: string | undefined) => {
     try {
-        const response = await axios.get(`${config.API_URL.blog.replace('{{blog_id}}', id)}`);
-        return response.data
+        if (id) {
+            const response = await axios.get(`${config.API_URL.blog.replace('{{blog_id}}', id)}`);
+            return response.data
+        }
     } catch (error) {
         console.log(error)
     }
