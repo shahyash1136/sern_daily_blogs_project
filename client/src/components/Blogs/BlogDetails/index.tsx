@@ -12,13 +12,13 @@ const BlogDetails = () => {
 
     useEffect(() => {
         dispatch(fetchBlog(id))
-    }, [])
+    }, [id])
 
 
     return (
         <>{
             isLoading ? 'Loading...'
-                : <div>
+                : <div className='prose max-w-none'>
                     {ReactHtmlParser(blogs[0].content)}
                 </div >
         }

@@ -27,7 +27,7 @@ const Blogs = () => {
                                 id={blog.id}
                                 title={blog.title}
                                 tags={blog.tags}
-                                updated_date={blog.updated_date}
+                                created_date={blog.created_date}
                                 content={blog.content}
                                 full_name={`${blog.user_firstName} ${blog.user_lastName}`}
                             />
