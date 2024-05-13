@@ -21,6 +21,11 @@ export const getUser = async (req, res) => {
       user_id,
     ]);
 
+    // Check if any rows are there or not
+    if (user.rowCount === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     res.status(200).send({ data: user.rows[0], message: "Successful" });
   } catch (error) {
     res.status(500).send({
@@ -57,9 +62,13 @@ export const updateUser = async (req, res) => {
     `;
 
     // Execute the query
-    await db.query(query, queryParameters);
+    const result = await db.query(query, queryParameters);
+    // Check if any rows are there or not
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    res.status(204).send({ message: "User Updated Successfully" });
+    res.json({ message: "User Updated Successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).send({
@@ -73,7 +82,13 @@ export const deleteUser = async (req, res) => {
   const user_id = req.params.id;
 
   try {
-    await db.query("DELETE FROM users WHERE user_id=$1", [user_id]);
+    const result = await db.query("DELETE FROM users WHERE user_id=$1", [
+      user_id,
+    ]);
+    // Check if any rows are there or not
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
     res.status(200).json({ message: "User Deleted Successfully" });
   } catch (error) {
     console.error(error);

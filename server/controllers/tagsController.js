@@ -9,3 +9,19 @@ export const getAllTags = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
+
+export const addTag = async (req, res) => {
+  const { tag_name } = req.body;
+  try {
+    const newTag = await db.query(
+      "INSERT INTO tags (tag_name) VALUES ($1) RETURNING *",
+      [tag_name]
+    );
+    res
+      .status(201)
+      .json({ data: newTag.rows[0], message: "Tag added successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error });
+  }
+};

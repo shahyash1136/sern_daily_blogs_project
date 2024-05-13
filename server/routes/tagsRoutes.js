@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { getAllTags } from "../controllers/tagsController.js";
+import { addTag, getAllTags } from "../controllers/tagsController.js";
 const routes = Router();
 
-routes.get("/", getAllTags);
+routes.get("/", getAllTags).post("/", addTag);
 
 export default routes;
